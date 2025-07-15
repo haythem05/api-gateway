@@ -1,0 +1,30 @@
+server:
+  port: 8080
+
+spring:
+  cloud:
+    gateway:
+      routes:
+        - id: login-service
+          uri: http://login-microservice:8080
+          predicates:
+            - Path=/api/auth/register, /api/auth/authenticate
+
+        - id: user-service
+          uri: http://user-microservice:8080
+          predicates:
+            - Path=/api/auth/ShowallUsers,
+              /api/auth/GetUserById/**,
+              /api/auth/UpdateUser/**,
+              /api/auth/DeleteUser/**,
+              /api/auth/users/verif/**,
+              /api/auth/users/reset-password/**,
+              /api/auth/getpassword/**,
+              /api/auth/reset-banned-status/**
+
+      default-filters:
+        - AddResponseHeader=X-Gateway, Haythem-API-Gateway
+
+logging:
+  level:
+    org.springframework.cloud.gateway: DEBUG
