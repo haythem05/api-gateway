@@ -11,7 +11,8 @@ public class CorsConfig {
     @Bean
     public CorsWebFilter corsWebFilter() {
         CorsConfiguration config = new CorsConfiguration();
-        config.addAllowedOrigin("*");
+        config.addAllowedOrigin("http://frontoffice.local");
+        config.addAllowedOrigin("http://backoffice.local");
         config.addAllowedMethod("*");
         config.addAllowedHeader("*");
 
