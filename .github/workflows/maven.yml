@@ -21,7 +21,7 @@ jobs:
           distribution: 'temurin'
           java-version: '17'
 
-      - name: Build JAR (skip tests)
+      - name: Build JAR 
         run: mvn clean package -DskipTests
   
   dependency-check:
@@ -45,7 +45,7 @@ jobs:
           wget https://github.com/jeremylong/DependencyCheck/releases/download/v8.4.2/dependency-check-8.4.2-release.zip
           unzip dependency-check-8.4.2-release.zip -d dependency-check
 
-      - name: Run OWASP Dependency-Check (target only)
+      - name: Run OWASP Dependency-Check 
         run: |
           ./dependency-check/dependency-check/bin/dependency-check.sh \
             --project "api-gateway" \
@@ -68,6 +68,16 @@ jobs:
     steps:
       - name: Checkout code
         uses: actions/checkout@v4
+        
+      - name: Download JAR Artifact
+        uses: actions/download-artifact@v4
+        with:
+          name: api-gateway-jar
+
+      - name: Move JAR to target folder
+        run: |
+          mkdir -p target
+          mv api-gateway-0.0.1-SNAPSHOT.jar target/  
 
       - name: Log in to Docker Hub
         uses: docker/login-action@v3
